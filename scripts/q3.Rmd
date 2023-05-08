@@ -1,0 +1,116 @@
+---
+title: "R Challenge"
+author: "Morality Lab"
+date: "2023-05-08"
+---
+
+Some R code and comments are provided here. Parts that you need to fill in are marked with `<YOUR CODE HERE>`. Note: in the standard R console and RStudio IDE, you can highlight a chunk of code and run it using `⌘ Cmd` + `Enter`. However, this isn't the case in Co-Lab (but, local variables, functions, and data are still stored in RAM).
+
+Even if you are totally new to R, we encourage you to give this challenge a shot! This job will inevitably involve teaching yourself new skills that other people in the lab might not have. If you ever get stuck, know that there is lots of R documentation online, so if you need information, just search for it! For those who are familiar with R frameworks, please feel free to adopt base R, tidyverse, data.table approaches, or a mix of these---whatever you are most comfortable doing!
+
+**NOTE:** if any task below requires multiple lines of code, make a point of providing your own documentation to tell me (or anyone who might look at your code) what function that line or set of lines is supposed to serve. This way, if a bit of code doesn't work, we can at least understand what you were *trying* to do!
+
+------------------------------------------------------------------------
+
+
+
+Install the packages `lme4` and `ggplot2`, and load them into your workspace. While most lab members prefer to use `tidyverse` syntax, you are welcome to implement the following exercises in base R or even `data.table`.
+
+```{r install-load-packages}
+# Install and load lme4 and ggplot2 packages
+# <YOUR CODE HERE>
+```
+
+## **R Challenge: Read in Code Challenge File**
+
+The link to the data is [here](https://drive.google.com/uc?id=1DDUz-UnuGz3fzperOSLF2Li7Fbk73WzZ). Please feel free to either read the data in from this link or upload it to your temporary Co-Lab storage and reference its location there.
+
+```{r read-data}
+# Read in the q3_data.csv as a dataframe called rtpj_df
+# <YOUR CODE HERE>
+```
+
+## **R Challenge: Create Columns Conditionally**
+
+This is a dataset with trial-by-trial neural activity (percent signal change, or PSC) from a region of the brain called the rTPJ, which the lab is *very* interested in. Each row corresponds to a trial of an fMRI experiment: the column `onset` tells you when, in a given run, that trial took place. For each trial, we have already extracted the PSC at 9 distinct time points: column 3 is the PSC 4 seconds before the start of a trial, column 5 is PSC at the start of the trial, and so on.
+
+The columns are already named in the following format:
+
+| subject | onset | -4  | -2  | 0   | 2   | 4   | 6   | 8   | 10  | 12  | conditions | wrongness | run |
+|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+
+Each trial belongs to an experimental condition (given in the `conditions` column---and there are 6 conditions in total). Participants also gave judgments of moral wrongness (on a scale from 1 = "not at all wrong" to 4 = "very wrong") at the end of each trial. These ratings can be found in the `wrongness` column.
+
+Our six conditions are derived from combinations of three independent variables: "agent," "patient," and "outcome." Here's how they break down:
+
+| condition    | agent    | outcome | patient |
+|--------------|----------|---------|---------|
+| `1st_P_harm` | self     | harm    | other   |
+| `1st_P_neut` | self     | neutral | other   |
+| `3rd_P_harm` | other    | harm    | other   |
+| `3rd_P_neut` | other    | neutral | other   |
+| `comp_other` | computer | harm    | other   |
+| `comp_self`  | computer | harm    | self    |
+
+So that we can eventually test the independent contribution of each of these variables on various outcomes measures, please make 3 new columns, one for each independent variable: `agent`, `patient`, and `outcome`. These should contain the variable info as described above.
+
+```{r create-columns-conditionally}
+# Create and populate agent, patient, and outcome columns
+# <YOUR CODE HERE>
+```
+
+## **R Challenge: Visualize Neural Time Course Data**
+
+Now let's try to visualize the time course of neural activity for the different conditions! Use `ggplot2` to visualize a line plot showing PSC fluctuation over a trial (from `-4` to `12`), broken down by condition and averaged across participants and trials. The final product should have 6 different time courses (one for each condition) overlaid on top of each other. There are a number of ways to put this all together and design the plot, so get creative! As a bonus, add standard error bars to your plot!
+
+**NOTE:** You may need to install and load some other packages to achieve the desired result.
+
+```{r visualize-data}
+# Use ggplot2 to visualize a line plot showing PSC fluctuation over a trial
+# <YOUR CODE HERE>
+```
+
+## **R Challenge: Create Columns with Averaged Values**
+
+Next we want to break the time points of PSC into averaged 'sections' as they appeared to participants in the experiment. From `2s` to `4s`, participants either made a choice or watched a choice made between two different cards, so we'll call this the `card` section. From `6s` to `8s`, participants saw a video displaying the outcome of their card choice, so we'll call this the `video` section. Immediately afterward (from `10s` to `12s`), they made a judgment about how morally wrong the action was, so we call this the `judgment` section of the task.
+
+Please make 3 new columns, one for each section: `card`, `video`, and `judgment`
+
+```{r create-columns-by-average}
+# Create and populate card, video, and judgment columns
+# <YOUR CODE HERE>
+```
+
+Looking just at the `self` and `other` data, we now want to answer the following questions: Is there a two-way interaction between agent and outcome conditions in how they relate to PSC in the RTPJ during the card section? What about the video section? And what about during the judgment section? Is there a main effect of either agent or outcome conditions on PSC in any of these sections?
+
+There are several ways you might test these questions. You could run a 2 (agent) x 2 (outcome) repeated-measures ANOVA, or you could implement linear mixed effects models. Your choice!
+
+Please note that R distinguishes between variables of type `factor` and `numeric` when running linear mixed effects models. Anything you are including as a categorical variable in the model, such as agent type or outcome, should be coded as a factor. Anything on a scale, such as a wrongness rating, should be coded as a numeric variable. You can convert a column to factor/numeric like so:
+
+In base R:
+
+```         
+data$column_name1 <- as.factor(data$column_name1)
+data$column_name2 <- as.numeric(data$column_name2)
+```
+
+Or, with tidyverse syntax:
+
+```         
+library(tidyverse)
+
+df <- df %>%
+  mutate(
+    column_name1 = as.factor(column_name1),
+    column_name2 = as.numeric(column_name2)
+  )
+```
+
+Test main effects and the 2 (agent) x 2 (outcome) interaction for all three sections (i.e., card, video and judgment) separately, then report your results in 1--2 sentences!
+
+```{r statistical-analyses}
+# Test main effects and the 2 (agent) x 2 (outcome) interaction
+# <YOUR CODE HERE>
+```
+
+`<YOUR EXPLANATION HERE>`
