@@ -3,7 +3,7 @@
 Welcome, and thank you so much for your interest in our lab! Here, you will find all the materials for your Python, R, and MATLAB coding challenges. All data is located in the `data` folder, and all scripts are located in the `scripts` folder.
 
 ## Question 1: Python Coding Challenge
-*    To simplify the process of getting started, we will not ask you to download Python or any of its dependencies; instead, simply click [here](https://colab.research.google.com/github/lypsychlab/coding-challenge/blob/main/q1.ipynb) to open up the challenge as a Colab workbook in Google Drive (this will automatically save a personal copy of the file in your Drive).
+*    To simplify the process of getting started, we will not ask you to download Python or any of its dependencies; instead, simply click [here](https://colab.research.google.com/github/lypsychlab/coding-challenge/blob/main/scripts/q1.ipynb) to open up the challenge as a Colab workbook in Google Drive (this will automatically save a personal copy of the file in your Drive).
 *    Once you are done debugging the script, please download the workbook as an `.ipynb` file and upload it into the Qualtrics submission survey.
 
 ## Question 2: MATLAB Coding Challenge
