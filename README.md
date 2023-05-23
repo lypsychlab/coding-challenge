@@ -9,7 +9,7 @@ Welcome, and thank you so much for your interest in our lab! Here, you will find
 ## Question 2: MATLAB Coding Challenge
 *    Please download the standalone script [here](https://github.com/lypsychlab/coding-challenge/blob/main/scripts/q2.m).
 *    Please note that you **cannot** run this code.
-*    Once you are done debugging the script, please upload it as a `.m` file to Qualtrics.
+*    Please enter your response in the text box on Qualtrics.
 
 ## Question 3: R Coding Challenge
 *    If you do not already have R installed, please navigate [here](https://cran.r-project.org/) to download it for PC or Mac.
